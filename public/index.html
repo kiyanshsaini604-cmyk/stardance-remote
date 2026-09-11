@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🤖 STARDANCE // REMOTE CONTROL</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- AUTH SCREEN -->
+  <div id="auth-screen" class="screen active">
+    <div class="auth-container">
+      <div class="auth-logo">🤖</div>
+      <h1>STARDANCE // REMOTE</h1>
+      <p class="auth-subtitle">[ AUTHENTICATION REQUIRED ]</p>
+      <div class="auth-form">
+        <input type="password" id="auth-key" placeholder="Enter auth key..." autocomplete="off">
+        <button id="auth-btn" onclick="App.login()">Connect</button>
+        <p id="auth-error" class="error-text" style="display:none"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN APP -->
+  <div id="app-screen" class="screen" style="display:none">
+
+    <!-- TOP NAV -->
+    <nav class="top-nav">
+      <div class="nav-left">
+        <span class="nav-logo">🤖</span>
+        <span class="nav-title">STARDANCE // REMOTE</span>
+      </div>
+      <div class="nav-right">
+        <div class="school-mode-toggle">
+          <label class="toggle-label">
+            <input type="checkbox" id="school-mode-check" onchange="App.toggleSchoolMode()">
+            <span class="toggle-slider"></span>
+            <span class="toggle-text">SCHOOL MODE</span>
+          </label>
+        </div>
+        <span class="connection-status" id="connection-status">● Connected</span>
+        <button class="nav-btn" onclick="App.logout()">Logout</button>
+      </div>
+    </nav>
+
+    <!-- VIEWS -->
+    <div class="main-content">
+
+      <!-- DASHBOARD VIEW -->
+      <div id="view-dashboard" class="view active">
+        <div class="view-header">
+          <h2>Projects</h2>
+          <button class="btn-primary" onclick="App.showView('create')">+ NEW PROJECT</button>
+        </div>
+
+        <!-- Status bar -->
+        <div class="status-bar" id="status-bar">
+          <div class="stat">
+            <span class="stat-value" id="stat-projects">0</span>
+            <span class="stat-label">Projects</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="stat-tasks">0</span>
+            <span class="stat-label">Tasks</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="stat-completed">0</span>
+            <span class="stat-label">Completed</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="stat-running">0</span>
+            <span class="stat-label">Running</span>
+          </div>
+        </div>
+
+        <!-- Projects list -->
+        <div id="projects-list" class="projects-grid">
+          <div class="empty-state">
+            <span class="empty-icon">📡</span>
+            <p>NO ACTIVE PROJECTS // CREATE ONE TO INITIALIZE</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CREATE PROJECT VIEW -->
+      <div id="view-create" class="view">
+        <div class="view-header">
+          <h2>// NEW PROJECT INITIALIZATION</h2>
+          <button class="btn-secondary" onclick="App.showView('dashboard')">← RETURN</button>
+        </div>
+
+        <div class="create-form">
+          <div class="form-group">
+            <label>// PROJECT DESIGNATION</label>
+            <input type="text" id="project-name" placeholder="e.g. PORTFOLIO WEBSITE">
+          </div>
+
+          <div class="form-group">
+            <label>// MISSION BRIEF</label>
+            <textarea id="project-desc" placeholder="Describe your project objective..." rows="4" oninput="App.onDescriptionChange()"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>// TIME CONSTRAINT <span class="optional-tag">optional</span></label>
+            <input type="number" id="project-time" placeholder="Minutes to complete" min="1">
+            <small>Maximum allocation for project completion</small>
+          </div>
+
+          <!-- Questions Section -->
+          <div class="questions-section" id="questions-section" style="display:none">
+            <h3>// MISSION PARAMETERS</h3>
+            <p class="questions-intro">Configure mission parameters for optimal execution:</p>
+            <div id="questions-container"></div>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn-primary" onclick="App.createProject()">INITIALIZE PROJECT</button>
+            <button class="btn-secondary" onclick="App.showView('dashboard')">ABORT</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECT DETAIL VIEW -->
+      <div id="view-project" class="view">
+        <div class="view-header">
+          <h2 id="project-title">Project</h2>
+          <div class="header-actions">
+            <button class="btn-primary" onclick="App.showAddTask()">+ NEW TASK</button>
+            <button class="btn-danger" onclick="App.deleteProject()">PURGE</button>
+            <button class="btn-secondary" onclick="App.showView('dashboard')">← RETURN</button>
+          </div>
+        </div>
+
+        <div id="project-info" class="project-info-card">
+          <div class="progress-bar-container">
+            <div class="progress-bar" id="project-progress" style="width: 0%"></div>
+            <span class="progress-text" id="project-progress-text">0%</span>
+          </div>
+          <p id="project-description" class="project-desc-text"></p>
+        </div>
+
+        <!-- Add Task Form (hidden by default) -->
+        <div id="add-task-form" class="add-task-form" style="display:none">
+          <h3>// NEW TASK SEQUENCE</h3>
+          <div class="form-group">
+            <label>// TASK DESIGNATION</label>
+            <input type="text" id="task-name" placeholder="e.g. INITIALIZE HTML STRUCTURE">
+          </div>
+          <div class="form-group">
+            <label>// EXECUTION COMMANDS</label>
+            <textarea id="task-commands" rows="6" placeholder="Shell commands, one per line...&#10;mkdir -p public/css public/js&#10;touch index.html styles.css app.js&#10;npm init -y"></textarea>
+            <small>Commands executed sequentially in terminal</small>
+          </div>
+          <div class="form-group">
+            <label>// TIMEOUT <span class="optional-tag">optional</span></label>
+            <input type="number" id="task-time" placeholder="Minutes" min="1">
+          </div>
+          <div class="form-actions">
+            <button class="btn-primary" onclick="App.addTask()">EXECUTE</button>
+            <button class="btn-secondary" onclick="App.hideAddTask()">ABORT</button>
+          </div>
+        </div>
+
+        <!-- Tasks List -->
+        <div id="tasks-list" class="tasks-list">
+          <div class="empty-state" id="no-tasks">
+            <span class="empty-icon">⚡</span>
+            <p>NO TASK SEQUENCES // ADD ONE TO BEGIN</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- NOTIFICATION TOAST -->
+  <div id="toast-container"></div>
+
+  <!-- PROGRESS NOTIFICATION (every 20 min) -->
+  <div id="notification-popup" class="notification-popup" style="display:none">
+    <div class="notif-header">// SYSTEM REPORT</div>
+    <div id="notification-content"></div>
+    <button class="notif-close" onclick="App.closeNotification()">✕</button>
+  </div>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>

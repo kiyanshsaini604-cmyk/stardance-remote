@@ -1,0 +1,19 @@
+{
+  "name": "freebuff",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "express": "^4.22.2",
+    "express-ws": "^5.0.2",
+    "node-notifier": "^10.0.1",
+    "ws": "^8.21.3"
+  }
+}
