@@ -1,0 +1,10 @@
+{
+  "name": "sysmonitor",
+  "version": "1.0.0",
+  "description": "System Control Panel & Performance Checker - real-time CPU, memory, disk, and process monitoring dashboard",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "license": "UNLICENSE"
+}
