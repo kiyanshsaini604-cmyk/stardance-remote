@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stardance Portfolio — AI Autonomous Task System</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+  <canvas id="particles"></canvas>
+
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="logo-icon">🤖</span>
+      <span class="logo-text">STARDANCE // REMOTE</span>
+    </div>
+    <div class="nav-links">
+      <a href="#hero" class="nav-link">HOME</a>
+      <a href="#about" class="nav-link">ABOUT</a>
+      <a href="#projects" class="nav-link">PROJECTS</a>
+      <a href="#skills" class="nav-link">SKILLS</a>
+      <a href="#contact" class="nav-link btn-nav">CONTACT</a>
+    </div>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <section id="hero" class="hero">
+    <div class="hero-content">
+      <p class="hero-tag">STARDANCE CHALLENGE // 2026</p>
+      <h1>AI AUTONOMOUS<br><span class="gradient-text">TASK SYSTEM</span></h1>
+      <p class="hero-sub">An autonomous AI developer that plans, executes, and self-corrects on software projects — running fully offline in school mode.</p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn-primary">VIEW PROJECTS</a>
+        <a href="#contact" class="btn-secondary">GET IN TOUCH</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-num" data-count="3">0</span>
+          <span class="stat-label">PROJECTS BUILT</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num" data-count="16">0</span>
+          <span class="stat-label">TASKS EXECUTED</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num" data-count="100">0</span>
+          <span class="stat-label">AUTONOMY %</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-corner tl"></div>
+    <div class="hero-corner tr"></div>
+    <div class="hero-corner bl"></div>
+    <div class="hero-corner br"></div>
+  </section>
+
+  <section id="about" class="section">
+    <div class="section-header">
+      <span class="section-tag">// ABOUT</span>
+      <h2>Who Built This</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>This project was built by an <strong>AI Autonomous Task Agent</strong> — a system that takes a project description, uses AI (GPT-4 / Claude) to generate a complete implementation plan, and executes it autonomously through shell commands.</p>
+        <p>The agent runs in <strong>School Mode</strong> — tasks execute in the background, fully offline, even when the developer is away. It self-corrects failures and sends progress notifications every 20 minutes.</p>
+        <p class="highlight">Welcome to the future of software development. <br>You describe it. The AI builds it. You review it.</p>
+      </div>
+      <div class="about-features">
+        <div class="feature-card">
+          <div class="feature-icon">🤖</div>
+          <h3>AI Planning</h3>
+          <p>Uses GPT-4o-mini or Claude to generate complete task plans from project descriptions</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Autonomous Execution</h3>
+          <p>Runs shell commands automatically — creates files, installs dependencies, writes code</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🏫</div>
+          <h3>School Mode</h3>
+          <p>Tasks run in background while you're away. Works fully offline. No internet needed.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔧</div>
+          <h3>Self-Correction</h3>
+          <p>Failed tasks are automatically retried. The agent learns and adapts.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>Real-Time Dashboard</h3>
+          <p>Jarvis HUD-style interface with live WebSocket progress tracking</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔔</div>
+          <h3>Smart Notifications</h3>
+          <p>Progress reports every 20 minutes. Browser and system notifications.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="section dark-section">
+    <div class="section-header">
+      <span class="section-tag">// PROJECTS</span>
+      <h2>What Was Built</h2>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-card-glow"></div>
+        <div class="project-icon">🤖</div>
+        <div class="project-number">01</div>
+        <h3>AI Autonomous Task System</h3>
+        <p class="project-tag">AI // SYSTEMS // AUTOMATION</p>
+        <p>A complete autonomous AI developer that plans projects, executes shell commands, self-corrects failures, and runs in school mode offline. Built with Node.js, Express, WebSocket, and AI API integration.</p>
+        <div class="project-tech">
+          <span class="tech-badge">Node.js</span>
+          <span class="tech-badge">Express</span>
+          <span class="tech-badge">WebSocket</span>
+          <span class="tech-badge">GPT-4</span>
+          <span class="tech-badge">Claude</span>
+        </div>
+        <div class="project-stats">
+          <div class="proj-stat"><span class="proj-num">16</span><span class="proj-label">Tasks Run</span></div>
+          <div class="proj-stat"><span class="proj-num">100%</span><span class="proj-label">Success Rate</span></div>
+          <div class="proj-stat"><span class="proj-num">3h</span><span class="proj-label">Built In</span></div>
+        </div>
+        <a href="https://github.com/kiyanshsaini604-cmyk/stardance-remote" target="_blank" class="project-link">VIEW ON GITHUB →</a>
+      </div>
+
+      <div class="project-card">
+        <div class="project-card-glow"></div>
+        <div class="project-icon">🌐</div>
+        <div class="project-number">02</div>
+        <h3>Stardance Remote Control</h3>
+        <p class="project-tag">SYSTEMS // DASHBOARD // REMOTE</p>
+        <p>A remote-controlled development dashboard that lets you manage coding tasks from any device. Features Jarvis HUD UI, real-time WebSocket updates, school mode auto-execution, and progress notifications.</p>
+        <div class="project-tech">
+          <span class="tech-badge">HTML/CSS</span>
+          <span class="tech-badge">JavaScript</span>
+          <span class="tech-badge">WebSocket</span>
+          <span class="tech-badge">Node.js</span>
+        </div>
+        <div class="project-stats">
+          <div class="proj-stat"><span class="proj-num">24/7</span><span class="proj-label">Accessible</span></div>
+          <div class="proj-stat"><span class="proj-num">30s</span><span class="proj-label">Check Interval</span></div>
+          <div class="proj-stat"><span class="proj-num">20min</span><span class="proj-label">Notify Rate</span></div>
+        </div>
+        <a href="https://github.com/kiyanshsaini604-cmyk/stardance-remote" target="_blank" class="project-link">VIEW ON GITHUB →</a>
+      </div>
+
+      <div class="project-card">
+        <div class="project-card-glow"></div>
+        <div class="project-icon">📝</div>
+        <div class="project-number">03</div>
+        <h3>Devlog Generator</h3>
+        <p class="project-tag">TOOLS // AUTOMATION // STARDANCE</p>
+        <p>One-click devlog generation for Stardance challenge submissions. Automatically compiles session activity, task completions, and progress into formatted Markdown ready to paste on the Stardance dashboard.</p>
+        <div class="project-tech">
+          <span class="tech-badge">Markdown</span>
+          <span class="tech-badge">Node.js</span>
+          <span class="tech-badge">Automation</span>
+        </div>
+        <div class="project-stats">
+          <div class="proj-stat"><span class="proj-num">1-click</span><span class="proj-label">Generate</span></div>
+          <div class="proj-stat"><span class="proj-num">Auto</span><span class="proj-label">Formatting</span></div>
+        </div>
+        <a href="https://github.com/kiyanshsaini604-cmyk/stardance-remote" target="_blank" class="project-link">VIEW ON GITHUB →</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="section">
+    <div class="section-header">
+      <span class="section-tag">// SKILLS</span>
+      <h2>Technical Proficiency</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-item">
+        <div class="skill-header">
+          <span>Node.js / Express</span>
+          <span class="skill-val">95%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-width="95"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-header">
+          <span>JavaScript / TypeScript</span>
+          <span class="skill-val">90%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-width="90"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-header">
+          <span>AI / LLM Integration</span>
+          <span class="skill-val">85%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-width="85"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-header">
+          <span>HTML / CSS / UI Design</span>
+          <span class="skill-val">88%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-width="88"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-header">
+          <span>WebSocket / Real-Time</span>
+          <span class="skill-val">82%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-width="82"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-header">
+          <span>Shell Scripting / DevOps</span>
+          <span class="skill-val">78%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-width="78"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-header">
+          <span>Git / GitHub</span>
+          <span class="skill-val">80%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-width="80"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-header">
+          <span>System Architecture</span>
+          <span class="skill-val">85%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-width="85"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="section dark-section">
+    <div class="section-header">
+      <span class="section-tag">// CONTACT</span>
+      <h2>Get In Touch</h2>
+    </div>
+    <div class="contact-container">
+      <div class="contact-info">
+        <div class="contact-item">
+          <span class="contact-icon">📧</span>
+          <div>
+            <span class="contact-label">Email</span>
+            <span class="contact-value">dev@stardance.hackclub.com</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <span class="contact-icon">🐙</span>
+          <div>
+            <span class="contact-label">GitHub</span>
+            <span class="contact-value">kiyanshsaini604-cmyk</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <span class="contact-icon">🏆</span>
+          <div>
+            <span class="contact-label">Stardance</span>
+            <span class="contact-value">Active Participant</span>
+          </div>
+        </div>
+        <p class="contact-note">Built during the Stardance Challenge — Summer 2026<br>Partnered with NASA & AMD</p>
+      </div>
+      <form class="contact-form" id="contact-form" onsubmit="return handleContact(event)">
+        <div class="form-group">
+          <input type="text" placeholder="Your Name" required>
+        </div>
+        <div class="form-group">
+          <input type="email" placeholder="Your Email" required>
+        </div>
+        <div class="form-group">
+          <textarea placeholder="Your Message" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="btn-primary contact-btn">SEND MESSAGE ⟫</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <span class="logo-icon">🤖</span>
+        <span class="logo-text">STARDANCE // REMOTE</span>
+      </div>
+      <p class="footer-text">AI Autonomous Task System — Built for the Stardance Challenge 2026</p>
+      <div class="footer-links">
+        <a href="https://stardance.hackclub.com" target="_blank">Stardance</a>
+        <a href="https://hackclub.com" target="_blank">Hack Club</a>
+        <a href="https://github.com/kiyanshsaini604-cmyk/stardance-remote" target="_blank">GitHub</a>
+      </div>
+      <p class="footer-copy">© 2026 — Made with 🤖 by the AI Agent</p>
+    </div>
+    <div class="footer-corner tl"></div>
+    <div class="footer-corner tr"></div>
+    <div class="footer-corner bl"></div>
+    <div class="footer-corner br"></div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
