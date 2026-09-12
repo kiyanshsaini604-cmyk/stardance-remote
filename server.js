@@ -4,6 +4,10 @@ const path = require('path');
 const db = require('./database');
 const executor = require('./executor');
 const scheduler = require('./scheduler');
+const AIFreeAgent = require('./agent');
+const agent = new AIFreeAgent(db, executor);
+const DevlogGenerator = require('./devlog');
+const devlogGen = new DevlogGenerator(db);
 
 const app = express();
 const wsInstance = expressWs(app);
@@ -244,6 +248,7 @@ app.get('/api/status', authMiddleware, (req, res) => {
     completedTasks,
     runningTasks: running.length,
     schoolMode: db.getSettings().schoolMode,
+    agentStatus: agent.getStatus(),
     projects: projects.map(p => ({
       id: p.id,
       name: p.name,
@@ -252,6 +257,58 @@ app.get('/api/status', authMiddleware, (req, res) => {
       taskCount: p.tasks.length
     }))
   });
+});
+
+// --- AI Agent Routes ---
+app.post('/api/agent/start', authMiddleware, async (req, res) => {
+  const { projectId, apiKey } = req.body;
+  if (!projectId) return res.status(400).json({ error: 'projectId required' });
+
+  const project = db.getProject(projectId);
+  if (!project) return res.status(404).json({ error: 'Project not found' });
+
+  try {
+    const result = await agent.start(projectId, apiKey);
+    if (result.error) return res.status(400).json(result);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/agent/stop', authMiddleware, (req, res) => {
+  agent.stop();
+  res.json({ success: true });
+});
+
+app.get('/api/agent/status', authMiddleware, (req, res) => {
+  res.json(agent.getStatus());
+});
+
+// --- Devlog Routes ---
+app.get('/api/devlog/:projectId', authMiddleware, (req, res) => {
+  const devlog = devlogGen.generate(req.params.projectId);
+  if (!devlog) return res.status(404).json({ error: 'Project not found' });
+  res.json(devlog);
+});
+
+app.get('/api/devlog/:projectId/markdown', authMiddleware, (req, res) => {
+  const devlog = devlogGen.generate(req.params.projectId);
+  if (!devlog) return res.status(404).json({ error: 'Project not found' });
+  res.type('text/markdown').send(devlogGen.toMarkdown(devlog));
+});
+
+app.get('/api/devlog/:projectId/screenshot-hint', authMiddleware, (req, res) => {
+  const devlog = devlogGen.generate(req.params.projectId);
+  if (!devlog) return res.status(404).json({ error: 'Project not found' });
+  res.json(devlogGen.generateScreenshotDesc(devlog));
+});
+
+app.post('/api/agent/set-key', authMiddleware, (req, res) => {
+  const { apiKey } = req.body;
+  if (!apiKey) return res.status(400).json({ error: 'apiKey required' });
+  agent.setAPIKey(apiKey);
+  res.json({ success: true, configured: true });
 });
 
 // Start server

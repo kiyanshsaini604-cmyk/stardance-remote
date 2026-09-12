@@ -11,9 +11,11 @@
   "type": "commonjs",
   "dependencies": {
     "chalk": "^4.1.2",
+    "chrome-launcher": "^1.2.1",
     "express": "^4.22.2",
     "express-ws": "^5.0.2",
     "node-notifier": "^10.0.1",
+    "puppeteer-core": "^25.10.0",
     "ws": "^8.21.3"
   }
 }

@@ -1035,6 +1035,89 @@ button {
 }
 
 /* ═══════════════════════════
+   AGENT PANEL
+   ═══════════════════════════ */
+.agent-panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--cyan);
+  padding: 1.2rem;
+  margin-bottom: 1.5rem;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  position: relative;
+}
+
+.agent-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  animation: hudPulse 2s ease-in-out infinite;
+}
+
+@keyframes hudPulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; box-shadow: 0 0 20px var(--cyan); }
+}
+
+.agent-panel-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  color: var(--cyan);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.agent-icon {
+  font-size: 1.1rem;
+  animation: hudSpin 8s linear infinite;
+}
+
+.agent-content {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.agent-info {
+  flex: 1;
+  min-width: 200px;
+}
+
+.agent-info-row {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.3rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.agent-label {
+  color: var(--text-muted);
+  min-width: 80px;
+  flex-shrink: 0;
+}
+
+.agent-value {
+  color: var(--text-bright);
+}
+
+.agent-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* ═══════════════════════════
    TOAST NOTIFICATIONS
    ═══════════════════════════ */
 #toast-container {

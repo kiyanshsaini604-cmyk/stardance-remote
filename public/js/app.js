@@ -115,13 +115,13 @@ const App = {
       case 'task_created':
         this.updateLocalTask(data.projectId, data.task);
         this.renderProjectDetail();
-        this.toast('TASK QUEUED // READY', 'info');
+        this.toast('✅ TASK QUEUED // READY', 'info');
         break;
 
       case 'task_started':
         this.updateLocalTask(data.projectId, data.task);
         this.renderProjectDetail();
-        this.toast(`EXECUTING: ${data.task.name}`, 'info');
+        this.toast(`🤖 EXECUTING: ${data.task.name}`, 'info');
         break;
 
       case 'task_progress':
@@ -138,7 +138,7 @@ const App = {
         this.updateLocalTaskStatus(data.projectId, data.taskId, data.status, data.progress);
         this.renderProjectDetail();
         this.renderDashboard();
-        this.toast(`TASK ${data.status === 'completed' ? 'COMPLETE // SUCCESS' : `FAILED // ${data.status.toUpperCase()}`}`,
+        this.toast(`🤖 TASK ${data.status === 'completed' ? 'COMPLETE // SUCCESS' : `FAILED // ${data.status.toUpperCase()}`}`,
           data.status === 'completed' ? 'success' : 'error');
         break;
 
@@ -552,6 +552,51 @@ const App = {
     });
   },
 
+  // ─── Devlog Generator ───
+  generateDevlog() {
+    if (!this.currentProject) {
+      this.toast('Open a project first', 'error');
+      return;
+    }
+
+    fetch(`/api/devlog/${this.currentProject.id}/markdown`, {
+      headers: { 'X-Auth-Key': this.key }
+    })
+    .then(r => r.text())
+    .then(markdown => {
+      // Copy to clipboard
+      navigator.clipboard.writeText(markdown).then(() => {
+        this.toast('📝 Devlog copied to clipboard! Paste it on Stardance.', 'success');
+      }).catch(() => {
+        // Fallback: show in textarea
+        const textarea = document.createElement('textarea');
+        textarea.value = markdown;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        this.toast('📝 Devlog copied! Paste on Stardance.', 'success');
+      });
+    })
+    .catch(() => {
+      this.toast('Failed to generate devlog', 'error');
+    });
+  },
+
+  // ─── AI Agent ───
+  updateAgentPanelOnLoad() {
+    this.updateAgentPanel();
+    fetch('/api/status', {
+      headers: { 'X-Auth-Key': this.key }
+    }).then(r => r.json()).then(data => {
+      if (data.agentStatus?.active) {
+        document.getElementById('agent-panel').style.display = 'block';
+        document.getElementById('agent-stat-container').style.display = 'block';
+        document.getElementById('stat-agent-label').textContent = 'AI ACTIVE';
+      }
+    });
+  },
+
   // ─── School Mode ───
   toggleSchoolMode() {
     const enabled = document.getElementById('school-mode-check').checked;
@@ -598,6 +643,104 @@ const App = {
 
   closeNotification() {
     document.getElementById('notification-popup').style.display = 'none';
+  },
+
+  // ─── AI Agent ───
+  startAgent() {
+    if (!this.currentProject) {
+      this.toast('Select a project first', 'error');
+      return;
+    }
+    const btn = document.querySelector('.agent-panel .btn-primary');
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = '⟳ INITIALIZING...\n';  
+      btn.style.opacity = '0.5';
+    }
+
+    fetch('/api/agent/start', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Auth-Key': this.key },
+      body: JSON.stringify({ projectId: this.currentProject.id })
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.error) {
+        this.toast('Agent error: ' + data.error, 'error');
+        if (btn) { btn.disabled = false; btn.textContent = '▶ START AGENT\n'; btn.style.opacity = ''; }
+        return;
+      }
+      this.toast('🤖 Agent started! Watching...', 'success');
+      this.updateAgentPanel();
+      // Refresh project to see new tasks
+      this.api('GET', `/projects/${this.currentProject.id}`).then(p => {
+        this.currentProject = p;
+        this.renderProjectDetail();
+      });
+    })
+    .catch(err => {        this.toast('Agent failed: ' + err.message, 'error');
+      if (btn) { btn.disabled = false; btn.textContent = '▶ START AGENT\n'; btn.style.opacity = ''; }
+    });
+  },
+
+  updateAgentPanelOnLoad() {
+    // Called after dashboard loads to check agent status
+    this.updateAgentPanel();
+    fetch('/api/status', {
+      headers: { 'X-Auth-Key': this.key }
+    }).then(r => r.json()).then(data => {
+      if (data.agentStatus?.active) {
+        this.updateAgentPanel();
+        document.getElementById('agent-stat-container').style.display = 'block';
+        document.getElementById('stat-agent-label').textContent = 'AI ACTIVE';
+      }
+    });
+  },
+
+  stopAgent() {
+    fetch('/api/agent/stop', {
+      method: 'POST',
+      headers: { 'X-Auth-Key': this.key }
+    }).then(() => {
+      this.toast('Agent stopped', 'info');
+      this.updateAgentPanel();
+    });
+  },
+
+  showAgentSettings() {
+    const key = prompt('Enter OpenAI API key (sk-...) or Anthropic key (sk-ant-...):');
+    if (key && key.trim()) {
+      fetch('/api/agent/set-key', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Auth-Key': this.key },
+        body: JSON.stringify({ apiKey: key.trim() })
+      }).then(() => {
+        this.toast('API key saved', 'success');
+        this.updateAgentPanel();
+      });
+    }
+  },
+
+  updateAgentPanel() {
+    fetch('/api/agent/status', {
+      headers: { 'X-Auth-Key': this.key }
+    })
+    .then(r => r.json())
+    .then(data => {
+      const panel = document.getElementById('agent-panel');
+      if (data.active) {
+        panel.style.display = 'block';
+        document.getElementById('agent-status').textContent = 'RUNNING';
+        document.getElementById('agent-status').style.color = 'var(--cyan)';
+        document.getElementById('agent-project').textContent = data.project?.name || 'Unknown';
+        document.getElementById('agent-apikey').textContent = data.apiKey || 'Not configured';
+        document.getElementById('agent-stat-container').style.display = 'block';
+        document.getElementById('stat-agent-label').textContent = 'AI ACTIVE';
+      } else {
+        panel.style.display = 'none';
+        document.getElementById('agent-stat-container').style.display = 'none';
+      }
+    });
   },
 
   // ─── Connection Status ───
